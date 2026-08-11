@@ -1,0 +1,16 @@
+    #include <stdio.h>
+
+    int CalculoSegundos(int horas, int minutos, int segundos){
+        int resultado= (horas*3600) + (minutos*60) + segundos;
+        return resultado;
+    }
+
+    int main(){
+
+    int qnthoras,qntminutos,qntsegundos;
+        printf("Informe as horas minutos e segundos:\n");
+            scanf("%i %i %i",&qnthoras,&qntminutos,&qntsegundos);
+        printf("RESUMO: HORAS:%i MINUTOS:%i SEGUNDOS:%i\n",qnthoras,qntminutos,qntsegundos);
+    printf("SEGUNDOS TOTAIS: %i\n", CalculoSegundos(qnthoras, qntminutos, qntsegundos));
+    return 0;
+    }
