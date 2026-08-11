@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+
+float CalculoCartesiano(float x1,float y1,float x2, float y2){
+    float distanciaH= x2 - x1;
+    float distanciaV= y2 -y1;
+        float distanciaHQUADRADO= distanciaH * distanciaH;
+        float distanciaVQUADRADO= distanciaV * distanciaV;
+            float distanciasSOMA= distanciaHQUADRADO + distanciaVQUADRADO;
+                float resultado= sqrt(distanciasSOMA);
+return resultado;
+}
+
+int main(){
+float pontox,pontoy,pontox2,pontoy2;
+    printf("Insira o X e Y do primeiro plano:\n");
+        scanf("%f %f",&pontox,&pontoy);
+    printf("Insira o X e Y do segundo plano:\n");
+        scanf("%f %f",&pontox2,&pontoy2);
+    system("cls");
+    printf("======================================================\n");
+    printf("-----------------------RESUMO---------------------------\n");
+    printf("======================================================\n");
+    printf("PLANO 1:\n X=%.2f Y=%.2f\n",pontox,pontoy);
+    printf("PLANO 2:\n X=%.2f Y=%.2f\n",pontox2,pontoy2);
+    printf("======================================================\n");
+    printf("DISTANCIA TOTAL ENTRE OS PONTOS:%.2f\n",CalculoCartesiano(pontox,pontoy,pontox2,pontoy2));
+    return 0;
+}
