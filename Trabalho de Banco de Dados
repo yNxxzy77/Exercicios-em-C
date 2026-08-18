@@ -30,3 +30,228 @@ SALARIO DECIMAL(10,2) NOT NULL,
 STATUS_FUNC ENUM('Ativo', 'Ferias','Afastado','Desligado') NOT NULL
 );
 
+CREATE TABLE Locais (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    NOME VARCHAR(100) NOT NULL,
+    CAPACIDADE_MAXIMA INT NOT NULL,
+    ENDERECO VARCHAR(150) NOT NULL,
+    CIDADE VARCHAR(50) NOT NULL,
+    ESTADO CHAR(2) NOT NULL
+);
+
+CREATE TABLE Eventos (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    NOME VARCHAR(100) NOT NULL,
+    DATA_HORA DATETIME NOT NULL,
+    CLASSIFICACAO_ETARIA INT NOT NULL,
+    ID_LOCAL INT NOT NULL,
+    ID_ORGANIZADOR INT NOT NULL,
+    FOREIGN KEY (ID_LOCAL) REFERENCES Locais(ID),
+    FOREIGN KEY (ID_ORGANIZADOR) REFERENCES Funcionarios(ID)
+);
+
+CREATE TABLE Lotes (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    ID_EVENTO INT NOT NULL,
+    NOME_SETOR VARCHAR(50) NOT NULL,
+    VALOR DECIMAL(10,2) NOT NULL,
+    QUANTIDADE_DISPONIVEL INT NOT NULL,
+    FOREIGN KEY (ID_EVENTO) REFERENCES Eventos(ID)
+);
+
+CREATE TABLE Ingressos (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    ID_USUARIO INT NOT NULL,
+    ID_LOTE INT NOT NULL,
+    DATA_COMPRA DATETIME NOT NULL,
+    VALOR_PAGO DECIMAL(10,2) NOT NULL,
+    STATUS_PAGAMENTO ENUM('Aprovado', 'Pendente', 'Cancelado') NOT NULL,
+    FOREIGN KEY (ID_USUARIO) REFERENCES Usuarios(ID),
+    FOREIGN KEY (ID_LOTE) REFERENCES Lotes(ID)
+); 	
+
+
+INSERT INTO Locais (NOME, CAPACIDADE_MAXIMA, ENDERECO, CIDADE, ESTADO) VALUES
+('Autódromo de Interlagos', 100000, 'Av. Sen. Teotônio Vilela, 261', 'São Paulo', 'SP'),
+('Cidade do Rock', 85000, 'Av. Salvador Allende, 6500', 'Rio de Janeiro', 'RJ'),
+('Pedreira Paulo Leminski', 30000, 'R. João Gava, 970', 'Curitiba', 'PR'),
+('Mineirão', 62000, 'Av. Antônio Abrahão Caram, 1001', 'Belo Horizonte', 'MG'),
+('Allianz Parque', 55000, 'Av. Francisco Matarazzo, 1705', 'São Paulo', 'SP');
+
+
+INSERT INTO Funcionarios (NOME, CPF, NASCIMENTO, EMAIL, TELEFONE, GENERO, CIDADE, ESTADO, ENDERECO, CARGO, SALARIO, STATUS_FUNC) VALUES
+('Roberto Costa', '10000000001', '1980-05-12', 'func1@lotezero.com', '11900000001', 'M', 'São Paulo', 'SP', 'Rua A, 1', 'Diretor Geral', 15000.00, 'Ativo'),
+('Fernanda Lima', '10000000002', '1985-08-22', 'func2@lotezero.com', '11900000002', 'F', 'São Paulo', 'SP', 'Rua B, 2', 'Gerente de Eventos', 8500.00, 'Ativo'),
+('Paulo Santos', '10000000003', '1990-11-05', 'func3@lotezero.com', '11900000003', 'M', 'Rio de Janeiro', 'RJ', 'Rua C, 3', 'Gerente Financeiro', 8500.00, 'Ativo'),
+('Juliana Alves', '10000000004', '1988-03-15', 'func4@lotezero.com', '11900000004', 'F', 'Curitiba', 'PR', 'Rua D, 4', 'Produtora', 5200.00, 'Ativo'),
+('Marcos Souza', '10000000005', '1992-07-30', 'func5@lotezero.com', '11900000005', 'M', 'Belo Horizonte', 'MG', 'Rua E, 5', 'Produtor', 5200.00, 'Ativo'),
+('Camila Pereira', '10000000006', '1995-01-10', 'func6@lotezero.com', '11900000006', 'F', 'São Paulo', 'SP', 'Rua F, 6', 'Coordenadora de TI', 7000.00, 'Ativo'),
+('Rafael Rodrigues', '10000000007', '1991-09-18', 'func7@lotezero.com', '11900000007', 'M', 'Rio de Janeiro', 'RJ', 'Rua G, 7', 'Analista de Sistemas', 4500.00, 'Ativo'),
+('Amanda Gomes', '10000000008', '1998-12-25', 'func8@lotezero.com', '11900000008', 'F', 'Curitiba', 'PR', 'Rua H, 8', 'Analista de Marketing', 4000.00, 'Ativo'),
+('Lucas Martins', '10000000009', '1993-04-05', 'func9@lotezero.com', '11900000009', 'M', 'Belo Horizonte', 'MG', 'Rua I, 9', 'Designer', 3800.00, 'Ferias'),
+('Beatriz Barbosa', '10000000010', '1996-06-14', 'func10@lotezero.com', '11900000010', 'F', 'São Paulo', 'SP', 'Rua J, 10', 'Assistente de Produção', 2800.00, 'Ativo'),
+('Felipe Ribeiro', '10000000011', '1987-02-28', 'func11@lotezero.com', '11900000011', 'M', 'Rio de Janeiro', 'RJ', 'Rua K, 11', 'Chefe de Segurança', 6000.00, 'Ativo'),
+('Mariana Cardoso', '10000000012', '1990-10-10', 'func12@lotezero.com', '11900000012', 'F', 'Curitiba', 'PR', 'Rua L, 12', 'Supervisora de Caixa', 3500.00, 'Ativo'),
+('Thiago Silva', '10000000013', '1994-08-08', 'func13@lotezero.com', '11900000013', 'M', 'São Paulo', 'SP', 'Rua M, 13', 'Segurança', 2500.00, 'Ativo'),
+('Larissa Dias', '10000000014', '1997-03-22', 'func14@lotezero.com', '11900000014', 'F', 'Rio de Janeiro', 'RJ', 'Rua N, 14', 'Segurança', 2500.00, 'Ativo'),
+('Diego Castro', '10000000015', '1989-11-11', 'func15@lotezero.com', '11900000015', 'M', 'Curitiba', 'PR', 'Rua O, 15', 'Segurança', 2500.00, 'Ferias'),
+('Bruna Nunes', '10000000016', '1999-05-19', 'func16@lotezero.com', '11900000016', 'F', 'Belo Horizonte', 'MG', 'Rua P, 16', 'Atendente de Caixa', 2000.00, 'Ativo'),
+('Vinicius Rocha', '10000000017', '2000-12-01', 'func17@lotezero.com', '11900000017', 'M', 'São Paulo', 'SP', 'Rua Q, 17', 'Atendente de Caixa', 2000.00, 'Ativo'),
+('Letícia Mendes', '10000000018', '1995-07-07', 'func18@lotezero.com', '11900000018', 'F', 'Rio de Janeiro', 'RJ', 'Rua R, 18', 'Atendente de Caixa', 2000.00, 'Ativo'),
+('Gabriel Pires', '10000000019', '1998-02-14', 'func19@lotezero.com', '11900000019', 'M', 'Curitiba', 'PR', 'Rua S, 19', 'Apoio Logístico', 2200.00, 'Ativo'),
+('Tatiane Freitas', '10000000020', '1991-09-29', 'func20@lotezero.com', '11900000020', 'F', 'Belo Horizonte', 'MG', 'Rua T, 20', 'Apoio Logístico', 2200.00, 'Ativo'),
+('Rodrigo Moraes', '10000000021', '1986-04-16', 'func21@lotezero.com', '11900000021', 'M', 'São Paulo', 'SP', 'Rua U, 21', 'Técnico de Som', 4000.00, 'Ativo'),
+('Carla Teixeira', '10000000022', '1993-10-23', 'func22@lotezero.com', '11900000022', 'F', 'Rio de Janeiro', 'RJ', 'Rua V, 22', 'Técnica de Iluminação', 4000.00, 'Ativo'),
+('Marcelo Nogueira', '10000000023', '1984-01-08', 'func23@lotezero.com', '11900000023', 'M', 'Curitiba', 'PR', 'Rua W, 23', 'Roadie', 2800.00, 'Ativo'),
+('Alice Farias', '10000000024', '1996-08-11', 'func24@lotezero.com', '11900000024', 'F', 'Belo Horizonte', 'MG', 'Rua X, 24', 'Fotógrafa', 3000.00, 'Ativo'),
+('Renato Barros', '10000000025', '1990-03-03', 'func25@lotezero.com', '11900000025', 'M', 'São Paulo', 'SP', 'Rua Y, 25', 'Videomaker', 3200.00, 'Ativo'),
+('Priscila Monteiro', '10000000026', '1994-11-20', 'func26@lotezero.com', '11900000026', 'F', 'Rio de Janeiro', 'RJ', 'Rua Z, 26', 'Assessora de Imprensa', 4500.00, 'Desligado'),
+('Leandro Viana', '10000000027', '1988-06-25', 'func27@lotezero.com', '11900000027', 'M', 'Curitiba', 'PR', 'Rua AA, 27', 'Coordenador de Bar', 3500.00, 'Ativo'),
+('Sabrina Campos', '10000000028', '1997-12-09', 'func28@lotezero.com', '11900000028', 'F', 'Belo Horizonte', 'MG', 'Rua BB, 28', 'Atendente de Bar', 1800.00, 'Ativo'),
+('Igor Azevedo', '10000000029', '2001-04-17', 'func29@lotezero.com', '11900000029', 'M', 'São Paulo', 'SP', 'Rua CC, 29', 'Atendente de Bar', 1800.00, 'Ativo'),
+('Vanessa Lima', '10000000030', '1992-09-02', 'func30@lotezero.com', '11900000030', 'F', 'Rio de Janeiro', 'RJ', 'Rua DD, 30', 'Auxiliar de Limpeza', 1600.00, 'Ativo');
+
+INSERT INTO Eventos (NOME, DATA_HORA, CLASSIFICACAO_ETARIA, ID_LOCAL, ID_ORGANIZADOR) VALUES
+('Lollapalooza 2027', '2027-03-26 14:00:00', 16, 1, 2),
+('Rock in Rio 2027', '2027-09-15 15:00:00', 16, 2, 4),
+('Festival Coolritiba', '2027-05-15 12:00:00', 18, 3, 5),
+('Planeta Brasil', '2027-01-23 13:00:00', 18, 4, 2),
+('Turnê Internacional Rock', '2027-11-10 20:00:00', 14, 5, 4),
+('Baile de Inverno', '2027-07-08 22:00:00', 18, 3, 5);
+
+-- 4. Inserindo 50 Usuários
+INSERT INTO Usuarios (NOME, CPF, NASCIMENTO, EMAIL, TELEFONE, GENERO, CIDADE, ESTADO, ENDERECO) VALUES
+('Usuario Um', '20000000001', '1995-01-01', 'usr1@email.com', '21900000001', 'M', 'São Paulo', 'SP', 'Rua 1'),
+('Usuario Dois', '20000000002', '1996-02-02', 'usr2@email.com', '21900000002', 'F', 'Rio de Janeiro', 'RJ', 'Rua 2'),
+('Usuario Tres', '20000000003', '1997-03-03', 'usr3@email.com', '21900000003', 'M', 'Curitiba', 'PR', 'Rua 3'),
+('Usuario Quatro', '20000000004', '1998-04-04', 'usr4@email.com', '21900000004', 'F', 'Belo Horizonte', 'MG', 'Rua 4'),
+('Usuario Cinco', '20000000005', '1999-05-05', 'usr5@email.com', '21900000005', 'M', 'Porto Alegre', 'RS', 'Rua 5'),
+('Usuario Seis', '20000000006', '2000-06-06', 'usr6@email.com', '21900000006', 'F', 'Salvador', 'BA', 'Rua 6'),
+('Usuario Sete', '20000000007', '2001-07-07', 'usr7@email.com', '21900000007', 'M', 'Recife', 'PE', 'Rua 7'),
+('Usuario Oito', '20000000008', '2002-08-08', 'usr8@email.com', '21900000008', 'F', 'Fortaleza', 'CE', 'Rua 8'),
+('Usuario Nove', '20000000009', '2003-09-09', 'usr9@email.com', '21900000009', 'M', 'Brasília', 'DF', 'Rua 9'),
+('Usuario Dez', '20000000010', '2004-10-10', 'usr10@email.com', '21900000010', 'F', 'Goiânia', 'GO', 'Rua 10'),
+('Usuario Onze', '20000000011', '1990-11-11', 'usr11@email.com', '21900000011', 'M', 'Manaus', 'AM', 'Rua 11'),
+('Usuario Doze', '20000000012', '1991-12-12', 'usr12@email.com', '21900000012', 'F', 'Belém', 'PA', 'Rua 12'),
+('Usuario Treze', '20000000013', '1992-01-13', 'usr13@email.com', '21900000013', 'M', 'Florianópolis', 'SC', 'Rua 13'),
+('Usuario Quatorze', '20000000014', '1993-02-14', 'usr14@email.com', '21900000014', 'F', 'Vitória', 'ES', 'Rua 14'),
+('Usuario Quinze', '20000000015', '1994-03-15', 'usr15@email.com', '21900000015', 'M', 'Natal', 'RN', 'Rua 15'),
+('Usuario Dezesseis', '20000000016', '1995-04-16', 'usr16@email.com', '21900000016', 'F', 'João Pessoa', 'PB', 'Rua 16'),
+('Usuario Dezessete', '20000000017', '1996-05-17', 'usr17@email.com', '21900000017', 'M', 'Maceió', 'AL', 'Rua 17'),
+('Usuario Dezoito', '20000000018', '1997-06-18', 'usr18@email.com', '21900000018', 'F', 'Aracaju', 'SE', 'Rua 18'),
+('Usuario Dezenove', '20000000019', '1998-07-19', 'usr19@email.com', '21900000019', 'M', 'Teresina', 'PI', 'Rua 19'),
+('Usuario Vinte', '20000000020', '1999-08-20', 'usr20@email.com', '21900000020', 'F', 'São Luís', 'MA', 'Rua 20'),
+('Usuario Vinte e Um', '20000000021', '2000-09-21', 'usr21@email.com', '21900000021', 'M', 'São Paulo', 'SP', 'Rua 21'),
+('Usuario Vinte e Dois', '20000000022', '2001-10-22', 'usr22@email.com', '21900000022', 'F', 'Rio de Janeiro', 'RJ', 'Rua 22'),
+('Usuario Vinte e Tres', '20000000023', '2002-11-23', 'usr23@email.com', '21900000023', 'M', 'Curitiba', 'PR', 'Rua 23'),
+('Usuario Vinte e Quatro', '20000000024', '2003-12-24', 'usr24@email.com', '21900000024', 'F', 'Belo Horizonte', 'MG', 'Rua 24'),
+('Usuario Vinte e Cinco', '20000000025', '2004-01-25', 'usr25@email.com', '21900000025', 'M', 'Porto Alegre', 'RS', 'Rua 25'),
+('Usuario Vinte e Seis', '20000000026', '1990-02-26', 'usr26@email.com', '21900000026', 'F', 'Salvador', 'BA', 'Rua 26'),
+('Usuario Vinte e Sete', '20000000027', '1991-03-27', 'usr27@email.com', '21900000027', 'M', 'Recife', 'PE', 'Rua 27'),
+('Usuario Vinte e Oito', '20000000028', '1992-04-28', 'usr28@email.com', '21900000028', 'F', 'Fortaleza', 'CE', 'Rua 28'),
+('Usuario Vinte e Nove', '20000000029', '1993-05-29', 'usr29@email.com', '21900000029', 'M', 'Brasília', 'DF', 'Rua 29'),
+('Usuario Trinta', '20000000030', '1994-06-30', 'usr30@email.com', '21900000030', 'F', 'Goiânia', 'GO', 'Rua 30'),
+('Usuario Trinta e Um', '20000000031', '1995-07-31', 'usr31@email.com', '21900000031', 'M', 'Manaus', 'AM', 'Rua 31'),
+('Usuario Trinta e Dois', '20000000032', '1996-08-01', 'usr32@email.com', '21900000032', 'F', 'Belém', 'PA', 'Rua 32'),
+('Usuario Trinta e Tres', '20000000033', '1997-09-02', 'usr33@email.com', '21900000033', 'M', 'Florianópolis', 'SC', 'Rua 33'),
+('Usuario Trinta e Quatro', '20000000034', '1998-10-03', 'usr34@email.com', '21900000034', 'F', 'Vitória', 'ES', 'Rua 34'),
+('Usuario Trinta e Cinco', '20000000035', '1999-11-04', 'usr35@email.com', '21900000035', 'M', 'Natal', 'RN', 'Rua 35'),
+('Usuario Trinta e Seis', '20000000036', '2000-12-05', 'usr36@email.com', '21900000036', 'F', 'João Pessoa', 'PB', 'Rua 36'),
+('Usuario Trinta e Sete', '20000000037', '2001-01-06', 'usr37@email.com', '21900000037', 'M', 'Maceió', 'AL', 'Rua 37'),
+('Usuario Trinta e Oito', '20000000038', '2002-02-07', 'usr38@email.com', '21900000038', 'F', 'Aracaju', 'SE', 'Rua 38'),
+('Usuario Trinta e Nove', '20000000039', '2003-03-08', 'usr39@email.com', '21900000039', 'M', 'Teresina', 'PI', 'Rua 39'),
+('Usuario Quarenta', '20000000040', '2004-04-09', 'usr40@email.com', '21900000040', 'F', 'São Luís', 'MA', 'Rua 40'),
+('Usuario Quarenta e Um', '20000000041', '1990-05-10', 'usr41@email.com', '21900000041', 'M', 'São Paulo', 'SP', 'Rua 41'),
+('Usuario Quarenta e Dois', '20000000042', '1991-06-11', 'usr42@email.com', '21900000042', 'F', 'Rio de Janeiro', 'RJ', 'Rua 42'),
+('Usuario Quarenta e Tres', '20000000043', '1992-07-12', 'usr43@email.com', '21900000043', 'M', 'Curitiba', 'PR', 'Rua 43'),
+('Usuario Quarenta e Quatro', '20000000044', '1993-08-13', 'usr44@email.com', '21900000044', 'F', 'Belo Horizonte', 'MG', 'Rua 44'),
+('Usuario Quarenta e Cinco', '20000000045', '1994-09-14', 'usr45@email.com', '21900000045', 'M', 'Porto Alegre', 'RS', 'Rua 45'),
+('Usuario Quarenta e Seis', '20000000046', '1995-10-15', 'usr46@email.com', '21900000046', 'F', 'Salvador', 'BA', 'Rua 46'),
+('Usuario Quarenta e Sete', '20000000047', '1996-11-16', 'usr47@email.com', '21900000047', 'M', 'Recife', 'PE', 'Rua 47'),
+('Usuario Quarenta e Oito', '20000000048', '1997-12-17', 'usr48@email.com', '21900000048', 'F', 'Fortaleza', 'CE', 'Rua 48'),
+('Usuario Quarenta e Nove', '20000000049', '1998-01-18', 'usr49@email.com', '21900000049', 'M', 'Brasília', 'DF', 'Rua 49'),
+('Usuario Cinquenta', '20000000050', '1999-02-19', 'usr50@email.com', '21900000050', 'F', 'Goiânia', 'GO', 'Rua 50');
+
+-- 5. Inserindo Lotes
+INSERT INTO Lotes (ID_EVENTO, NOME_SETOR, VALOR, QUANTIDADE_DISPONIVEL) VALUES
+(1, 'Pista Geral - Lote 1', 600.00, 10000),
+(1, 'Lolla Lounge VIP', 2500.00, 1000),
+(2, 'Gramado', 850.00, 20000),
+(2, 'Área VIP', 3000.00, 500),
+(3, 'Pista Premium', 450.00, 5000),
+(4, 'Camarote Open Bar', 900.00, 2000),
+(5, 'Cadeira Superior', 350.00, 15000),
+(5, 'Pista VIP', 700.00, 8000),
+(6, 'Mesa Ouro (4 Pessoas)', 1200.00, 200);
+
+-- Insere os ingressos com datas e horários variados (de Abril a Agosto)
+INSERT INTO Ingressos (ID_USUARIO, ID_LOTE, DATA_COMPRA, VALOR_PAGO, STATUS_PAGAMENTO) VALUES
+(1, 1, '2026-04-10 10:15:00', 600.00, 'Aprovado'),
+(2, 1, '2026-04-12 14:30:00', 600.00, 'Aprovado'),
+(3, 2, '2026-04-15 09:00:00', 2500.00, 'Aprovado'),
+(4, 3, '2026-05-02 11:45:00', 850.00, 'Aprovado'),
+(5, 4, '2026-05-05 16:20:00', 3000.00, 'Pendente'),
+(6, 5, '2026-05-10 20:10:00', 450.00, 'Aprovado'),
+(7, 6, '2026-05-12 18:05:00', 900.00, 'Cancelado'),
+(8, 7, '2026-05-20 13:40:00', 350.00, 'Aprovado'),
+(9, 8, '2026-05-25 22:15:00', 700.00, 'Aprovado'),
+(10, 9, '2026-06-01 08:30:00', 1200.00, 'Aprovado'),
+(11, 1, '2026-06-05 15:50:00', 600.00, 'Pendente'),
+(12, 2, '2026-06-08 19:25:00', 2500.00, 'Cancelado'),
+(13, 3, '2026-06-10 12:10:00', 850.00, 'Aprovado'),
+(14, 4, '2026-06-15 17:40:00', 3000.00, 'Aprovado'),
+(15, 5, '2026-06-18 10:05:00', 450.00, 'Aprovado'),
+(16, 6, '2026-06-20 14:20:00', 900.00, 'Aprovado'),
+(17, 7, '2026-06-25 09:55:00', 350.00, 'Aprovado'),
+(18, 8, '2026-07-01 21:30:00', 700.00, 'Cancelado'),
+(19, 9, '2026-07-03 16:15:00', 1200.00, 'Aprovado'),
+(20, 1, '2026-07-05 11:45:00', 600.00, 'Aprovado'),
+(21, 1, '2026-07-08 13:20:00', 600.00, 'Aprovado'),
+(22, 3, '2026-07-10 18:50:00', 850.00, 'Pendente'),
+(23, 5, '2026-07-12 20:10:00', 450.00, 'Aprovado'),
+(24, 7, '2026-07-15 08:40:00', 350.00, 'Aprovado'),
+(25, 8, '2026-07-18 15:05:00', 700.00, 'Aprovado'),
+(26, 2, '2026-07-20 10:30:00', 2500.00, 'Aprovado'),
+(27, 4, '2026-07-22 14:15:00', 3000.00, 'Cancelado'),
+(28, 6, '2026-07-25 19:55:00', 900.00, 'Aprovado'),
+(29, 9, '2026-07-28 22:40:00', 1200.00, 'Aprovado'),
+(30, 1, '2026-08-01 09:20:00', 600.00, 'Pendente'),
+(31, 3, '2026-08-02 11:10:00', 850.00, 'Aprovado'),
+(32, 5, '2026-08-03 16:35:00', 450.00, 'Aprovado'),
+(33, 7, '2026-08-04 13:05:00', 350.00, 'Cancelado'),
+(34, 8, '2026-08-05 18:45:00', 700.00, 'Aprovado'),
+(35, 1, '2026-08-06 20:30:00', 600.00, 'Aprovado'),
+(36, 2, '2026-08-07 10:15:00', 2500.00, 'Aprovado'),
+(37, 3, '2026-08-08 14:50:00', 850.00, 'Aprovado'),
+(38, 4, '2026-08-09 09:40:00', 3000.00, 'Aprovado'),
+(39, 5, '2026-08-10 17:25:00', 450.00, 'Pendente'),
+(40, 6, '2026-08-11 21:10:00', 900.00, 'Aprovado'),
+(41, 7, '2026-08-12 08:55:00', 350.00, 'Aprovado'),
+(42, 8, '2026-08-13 12:30:00', 700.00, 'Aprovado'),
+(43, 9, '2026-08-14 15:45:00', 1200.00, 'Cancelado'),
+(44, 1, '2026-08-15 19:20:00', 600.00, 'Aprovado'),
+(45, 3, '2026-08-16 10:05:00', 850.00, 'Aprovado'),
+(46, 5, '2026-08-16 14:40:00', 450.00, 'Aprovado'),
+(47, 7, '2026-08-17 11:15:00', 350.00, 'Pendente'),
+(48, 8, '2026-08-17 16:50:00', 700.00, 'Aprovado'),
+(49, 1, '2026-08-18 09:30:00', 600.00, 'Aprovado'),
+(50, 3, '2026-08-18 13:10:00', 850.00, 'Aprovado');
+ 
+-- AREA DE CONTAGEM
+SELECT COUNT(ID) AS TOTAL_Usuarios FROM Usuarios;
+SELECT SUM(VALOR_PAGO) AS FATURAMENTO_TOTAL FROM Ingressos WHERE STATUS_PAGAMENTO='Aprovado';
+SELECT MAX(VALOR_PAGO)  AS INGRESSO_MAIS_CARO FROM Ingressos;
+SELECT MIN(VALOR_PAGO) AS INGRESSO_MAIS_BARATO FROM Ingressos;
+SELECT AVG(VALOR_PAGO) AS VALOR_MEDIO FROM Ingressos WHERE STATUS_PAGAMENTO='Aprovado';
+SELECT ESTADO, COUNT(ID) AS ESTADOS_USUARIOS FROM Usuarios GROUP BY ESTADO; 
+SELECT STATUS_PAGAMENTO, SUM(VALOR_PAGO) AS Valor_TOTAL FROM INGRESSOS GROUP BY STATUS_PAGAMENTO;
+SELECT CARGO, AVG(SALARIO) AS MEDIA_SALARIAL FROM Funcionarios GROUP BY CARGO;
+SELECT CARGO, COUNT(ID) AS FUNCIONARIOS_POR_CARGO FROM Funcionarios GROUP BY CARGO HAVING COUNT(ID) >=3;
+SELECT ID_LOTE, SUM(VALOR_PAGO) AS Faturamento_Lote FROM Ingressos WHERE STATUS_PAGAMENTO='Aprovado' GROUP BY ID_LOTE HAVING SUM(VALOR_PAGO) >5000;
+
+-- AREA UNION
+
+SELECT NOME,EMAIL FROM Usuarios UNION ALL SELECT NOME,EMAIL FROM FUNCIONARIOS;
+SELECT CIDADE FROM Usuarios UNION SELECT CIDADE FROM Funcionarios;
+SELECT CIDADE FROM Usuarios EXCEPT SELECT CIDADE FROM Funcionarios;
+SELECT DISTINCT ESTADO FROM Usuarios;
